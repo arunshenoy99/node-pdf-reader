@@ -81,8 +81,9 @@ const linesToRead = async (saveLines=true, jsonDir='./json', jsonData=false) => 
         files = Object.keys(jsonData)
     }
     for (var i = 0; i < files.length; i++) {
+        const page = await askQuestion(`Page number for ${files[i]}:`)
         const endLine = await askQuestion(`Ending line for ${files[i]}:`)
-        lines[files[i]] = endLine
+        lines[files[i]] = {page: parseInt(page) - 1, endLine}
     }
     if (saveLines) {
         saveData('lines.json', JSON.stringify(lines))
@@ -98,8 +99,8 @@ const extractLines =  async (pdfDir, extractFile, regex, saveJSON=false) => {
     let finale = {}
     for (var i = 0; i < files.length; i++) {
         const data = jsonData[files[i]]
-        const texts = data.formImage.Pages[0].Texts
-        const endLine = lines[files[i]]
+        const texts = data.formImage.Pages[lines[files[i]].page].Texts
+        const endLine = lines[files[i]].endLine
         let currentY = 0, line = 0
         finale[files[i]] = {}
         texts.some((text) => {
