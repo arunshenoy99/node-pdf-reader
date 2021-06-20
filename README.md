@@ -39,4 +39,9 @@ To skip the prompt each time you extract data from the files in a directory, you
 ```
 { "filename": {"page": <page no here>, "endLine": <ending line here> } }
 ```
-The prompt data will be read directly from this file.
+The prompt data will be read directly from this file.  
+  
+You can also make use of the functions in this module in other files.
+```
+const pdfExtractor = require('extractor')
+```
